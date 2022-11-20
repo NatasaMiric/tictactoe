@@ -42,9 +42,14 @@ def generate_computer_input():
     """
     Generates random computer move
     """
-    random_move = list(board.keys())
-    computer_input = random.choice(random_move)  
-    board[computer_input] = "O" 
+    
+    random_move = list(board.keys())    
+    computer_input = random.choice(random_move)
+    if not isboardfull():
+        if board[computer_input] != "X" and board[computer_input] != "O":  
+            board[computer_input] = "O" 
+        else:
+            generate_computer_input()
 
 
 def isboardfull():
@@ -69,7 +74,8 @@ def run_game():
         if board[user_input] == ' ':
             board[user_input] = "X"            
             count += 1
-            generate_computer_input()     
+            generate_computer_input() 
+            check_win()    
         else:
             print("\nThat place is already filled.\nChoose another location.")
             continue    
