@@ -7,8 +7,6 @@ board = {
         '7': ' ', '8': ' ', '9': ' '
     }
 
-turn = 0  # Keeps track whos turn it is
-
 
 def display_board(board):
     """
@@ -27,25 +25,25 @@ def run_game():
     """
     while not isboardfull():
         display_board(board)
-        print("\nPlease enter a number (1-9) or q to quit the game: ")
-        
-        try: 
-            user_input = input()
+        try:
+            user_input = input("\nPlease enter a number (1-9) or"
+                               " q to quit the game: ")
             if user_input.lower() == 'q':
                 print("Thank you for playing!")
                 break
-            if board[user_input] == ' ':            
+            if board[user_input] == ' ':
                 board[user_input] = 'X'
                 generate_computer_input()
+                check_win()
                 # Clears the console
-                os.system('cls' if os.name == 'nt' else 'clear')              
+                os.system('cls' if os.name == 'nt' else 'clear')
             else:
-                print("\nThat place is already taken.Choose another spot.\n")
+                print("\nThat place is already taken. Choose another spot.\n")
                 continue
         except KeyError:
-            print('Invalid input.Please try again') 
- 
-   
+            print("\nInvalid input. Please try again\n")
+
+
 def isboardfull():
     """
     Checks if the board has empty locations
@@ -70,36 +68,35 @@ def generate_computer_input():
             generate_computer_input()
 
 
-# def check_win():
-
-#     if check_diagonal() or check_horizontal() or check_vertical():
-#         return True
-
-
-# def check_horizontal():
-#     if (board[1] == board[2] == board[3] and board[1] != "-") or\
-#         (board[4] == board[5] == board[6] and board[4] != "-") or\
-#             (board[7] == board[8] == board[9] and board[7] != "-"):
-#         return True
+def check_win():
+    if check_diagonal() or check_horizontal() or check_vertical():
+        return True
 
 
-# def check_vertical():
-#     if (board[1] == board[4] == board[7] and board[1] != "-") or\
-#         (board[2] == board[5] == board[8] and board[2] != "-") or\
-#             (board[3] == board[6] == board[9] and board[3] != "-"):
-#         return True
+def check_horizontal():
+    if (board['1'] == board['2'] == board['3'] and board['1'] != ' ') or\
+        (board['4'] == board['5'] == board['6'] and board['4'] != ' ') or\
+            (board['7'] == board['8'] == board['9'] and board['7'] != ' '):
+        return True
 
 
-# def check_diagonal():
-#     if (board[1] == board[5] == board[9] and board[1] != "-") or\
-#        (board[3] == board[5] == board[7] and board[3] != "-"):
-#         return True
+def check_vertical():
+    if (board['1'] == board['4'] == board['7'] and board['1'] != ' ') or\
+        (board['2'] == board['5'] == board['8'] and board['2'] != ' ') or\
+            (board['3'] == board['6'] == board['9'] and board['3'] != ' '):
+        return True
 
 
-# def check_tie():
-#     if ' ' not in board:
-#         display_board(board)
-#         print("Its a tie")
+def check_diagonal():
+    if (board['1'] == board['5'] == board['9'] and board['1'] != ' ') or\
+       (board['3'] == board['5'] == board['7'] and board['3'] != ' '):
+        return True
+
+
+def check_tie():
+    if ' ' not in board:
+        display_board(board)
+        print("Its a tie")
 
 
 def display_instructions():
@@ -111,28 +108,34 @@ def display_instructions():
         "\nPlayer 1 and player 2, represented by X and O, take turns "
         "marking the spaces on a 3*3 board.\n"
         "The player who succeeds in placing "
-        "three of their marks in a horizontal,"
+        "three of their marks in a horizontal, "
         "vertical, or diagonal row wins.\n"
 
-        "Make your move by entering a number 1-9.\n"
+        "Make your move by entering a number 1-9"
+        " to the available spot.\n"
         "You have the X symbol assigned to you to play,"
-        "while the computer has the symbol O."
-        "The number will correspond to the board position as illustrated:\n"
+        " while the computer has the symbol O."
+        " The number will correspond to the board position as illustrated:\n"
         "\n1 | 2 | 3\n4 | 5 | 6\n7 | 8 | 9\n"
     )
+    print("------------------------------------------------------------")
 
 
 def main():
     """
     Main function
     """
+    print("----------------------------")
+    print("Welcome to Tic Tac Toe Game!")
+    print("----------------------------")
+    print("What's you name?")
+    name = input()
+    print("----------------------------")
+    print('')
+    print(f"Welcome {name}!")
+    print("Let's play!")
     display_instructions()
     run_game()
-    
-
-
-print("Welcome to Tic Tac Toe Game!")
-print("----------------------------")
 
 
 main()
