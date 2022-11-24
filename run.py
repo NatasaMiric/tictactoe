@@ -74,15 +74,12 @@ def is_cell_empty():
 
 
 def generate_computer_input():
-    """
-    Generates random computer move from 1 to 9
-    """
     computer_input = random.randint(1, 9)
-    if not is_board_full():
-        if not board[int(computer_input - 1)] in {'X', 'O'}:
-            board[computer_input - 1] = 'O'
-        else:
-            generate_computer_input()
+    # if not is_board_full():
+    if not board[int(computer_input - 1)] in {'X', 'O'}:
+        board[computer_input - 1] = 'O'
+    else:
+        computer_input = generate_computer_input()
     return computer_input
 
 
@@ -94,12 +91,12 @@ def check_win():
     computer_selection.sort()
     user_selection.sort()
     print(user_selection)
-    if any([set(w).issubset(set(user_selection)) for w in WIN_COMBINATIONS]):
-        print("\nCongratulations! You are the winner\n")   
-        return True        
-    elif any([set(w).issubset(set(computer_selection)) for w in WIN_COMBINATIONS]):
-        print("Computer is a winner!")
-        return True
+    if any([set(w).issubset(set(computer_selection)) for w in WIN_COMBINATIONS]):
+        print("\nGame over!Computer is a winner!\n")
+        return True       
+    elif any([set(w).issubset(set(user_selection)) for w in WIN_COMBINATIONS]):
+        print("\nCongratulations! You are the winner!\n")   
+        return True  
    
 #     for win in WIN_COMBINATIONS:
 
@@ -159,7 +156,7 @@ def main():
     print("Welcome to Tic Tac Toe Game!")
     print("----------------------------")
     print("What's you name?")
-    name = input()
+    name = str(input())
     print("----------------------------")
     print('')
     print(f"Welcome {name}!")
