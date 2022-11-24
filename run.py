@@ -41,13 +41,13 @@ def run_game():
                 if check_win() is True:
                     break
                 # Clears the console
-                # os.system('cls' if os.name == 'nt' else 'clear')                
+                #os.system('cls' if os.name == 'nt' else 'clear')             
             else:
                 print("\nThat place is already taken. Choose another spot.\n")
         except IndexError:
             print("\nInvalid input. Please try again\n")
-    display_board(board)
     print("Thank you for playing")
+    display_board(board)
 
 
 def is_board_full():
@@ -74,12 +74,12 @@ def is_cell_empty():
 
 
 def generate_computer_input():
-    computer_input = random.randint(1, 9)
-    # if not is_board_full():
-    if not board[int(computer_input - 1)] in {'X', 'O'}:
-        board[computer_input - 1] = 'O'
-    else:
-        computer_input = generate_computer_input()
+    computer_input = random.randint(1, 9)    
+    if not is_board_full():
+        if not board[int(computer_input - 1)] in {'X', 'O'}:
+            board[computer_input - 1] = 'O'
+        else:
+            computer_input = generate_computer_input()
     return computer_input
 
 
@@ -89,8 +89,7 @@ def check_win():
     """
 
     computer_selection.sort()
-    user_selection.sort()
-    print(user_selection)
+    user_selection.sort()    
     if any([set(w).issubset(set(computer_selection)) for w in WIN_COMBINATIONS]):
         print("\nGame over!Computer is a winner!\n")
         return True       
@@ -98,33 +97,6 @@ def check_win():
         print("\nCongratulations! You are the winner!\n")   
         return True  
    
-#     for win in WIN_COMBINATIONS:
-
-#         # if win in user_selection:
-#         #     print("win")
-#         #     return True
-#         # if win in computer_selection:
-#         #     print("Game over! You lost!")
-#         #     return True
-#         if collections.Counter(win) == collections.Counter(user_selection):
-#             print("Congratulations!You are the winner!")
-#             return True
-#         elif collections.Counter(win) == collections.Counter(computer_selection):
-#             print("Game over! You lost!")
-#             return True
-#         # print(user_selection)
-#         # print(win)
-#     return False
-#     # if user_selection in WIN_COMBINATIONS:
-#     #     print("Congratulations!You are the winner!")
-#     #     return True
-#     # elif computer_selection in WIN_COMBINATIONS:
-#     #     print("Game over! You lost!")
-#     #     return True
-#     # else:
-#     #     print("I's a tie!")
-#     #     return False
-
 
 def display_instructions():
     """
@@ -164,7 +136,7 @@ def main():
 
     display_instructions()
     run_game()
-
+    
 
 if __name__ == '__main__':
     main()
