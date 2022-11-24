@@ -95,12 +95,12 @@ def check_win():
     user_selection.sort()
     print(user_selection)
     if any([set(w).issubset(set(user_selection)) for w in WIN_COMBINATIONS]):
-        print("\nCongratulations! You are the winner\n")       
-    
+        print("\nCongratulations! You are the winner\n")   
+        return True        
     elif any([set(w).issubset(set(computer_selection)) for w in WIN_COMBINATIONS]):
         print("Computer is a winner!")
-        
-
+        return True
+   
 #     for win in WIN_COMBINATIONS:
 
 #         # if win in user_selection:
