@@ -27,31 +27,46 @@ def run_game():
     Function that runs the game until all the cells in the board are occupied.
     Gets user input and checks if user input is valid and if not displays
     error message
-    """
-        
+    """        
     while not is_board_full():
         display_board(board)
         try:
-            user_input = int(input("\nPlease enter a number (1-9): "))
+            user_input = input("\nPlease enter a number (1-9): ")
 
-            if board[int(user_input - 1)] == is_cell_empty():
-                board[user_input - 1] = 'X'
-                user_selection.append(user_input)                 
-                if check_win() or check_tie() is True:
-                    break
-                computer_input = generate_computer_input()
-                computer_selection.append(computer_input)
-                if check_win() is True:
-                    break
-                # Clears the console
-                # os.system('cls' if os.name == 'nt' else 'clear')                
-            else:
-                print("\nThat place is already taken. Choose another spot.\n")
-        except IndexError:
+            if user_input.isnumeric() == False:
+                print("\nInput must be a number between 1 and 9\n")
+                continue
+
+            user_input = int(user_input)
+
+            if user_input_between_one_and_nine(user_input) == False:
+                print("\nYour input number is not between 1 and 9.\n")
+                continue   
+
+            if is_cell_empty(board[user_input - 1]) == False:
+                print("\nThis place is already taken. Choose another spot.\n")
+                continue
+
+            board[user_input - 1] = 'X'
+            user_selection.append(user_input)                 
+            if check_game():
+                break
+            computer_input = generate_computer_input()
+            computer_selection.append(computer_input)
+            if check_game():
+                break
+ 
+            # Clears the console
+            # os.system('cls' if os.name == 'nt' else 'clear')  
+        except ValueError:
             print("\nInvalid input. Please try again\n")
     print("Thank you for playing!\n")
-    display_board(board)
-    
+    display_board(board)    
+
+
+def check_game():
+    return check_win() or check_tie()    
+
 
 def is_board_full():
     """
@@ -63,17 +78,17 @@ def is_board_full():
     return True
 
 
-# def check_user_input(user_input):
-#     if (user_input >= 1 and user_input <= 9) and is_cell_empty():
-#         return False
-#     return True
+def user_input_between_one_and_nine(user_input):
+    if user_input >= 1 and user_input <= 9:
+        return True
+    return False
 
 
-def is_cell_empty():
+def is_cell_empty(board_location):
     """
     Returns True if cell in the board is empty
     """
-    return ' '
+    return board_location == ' '
 
 
 def generate_computer_input():
@@ -97,7 +112,7 @@ def check_win():
     user_selection.sort()
     if any([set(w).issubset(set(computer_selection))
            for w in WIN_COMBINATIONS]):
-        print("\n***Game over!Computer is the WINNER!***\n")
+        print("\n***Game over! Computer is the WINNER!***\n")
         return True
     elif any([set(w).issubset(set(user_selection)) for w in WIN_COMBINATIONS]):
         print("\n***Congratulations! You are the WINNER!***\n")
@@ -138,14 +153,18 @@ def main():
     """
     print("----------------------------")
     print("Welcome to Tic Tac Toe Game!")
-    print("----------------------------")
+    print("----------------------------")    
     print("What's you name?")
-    name = input()
+    name = ''
+    while True:
+        name = input()
+        if name.isalpha():
+            break
+        print("Please use the letters to input your name!")
     print("----------------------------")
     print('')
     print(f"Welcome {name}!")
-    print("Let's play!")
-    
+    print("Let's play!")    
     display_instructions()
     run_game()   
 
