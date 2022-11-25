@@ -28,6 +28,7 @@ def run_game():
     Gets user input and checks if user input is valid and if not displays
     error message
     """
+        
     while not is_board_full():
         display_board(board)
         try:
@@ -35,20 +36,22 @@ def run_game():
 
             if board[int(user_input - 1)] == is_cell_empty():
                 board[user_input - 1] = 'X'
-                user_selection.append(user_input)
+                user_selection.append(user_input)                 
+                if check_win() or check_tie() is True:
+                    break
                 computer_input = generate_computer_input()
                 computer_selection.append(computer_input)
                 if check_win() is True:
                     break
                 # Clears the console
-                #os.system('cls' if os.name == 'nt' else 'clear')             
+                # os.system('cls' if os.name == 'nt' else 'clear')                
             else:
                 print("\nThat place is already taken. Choose another spot.\n")
         except IndexError:
             print("\nInvalid input. Please try again\n")
-    print("Thank you for playing")
+    print("Thank you for playing!\n")
     display_board(board)
-
+    
 
 def is_board_full():
     """
@@ -61,9 +64,9 @@ def is_board_full():
 
 
 # def check_user_input(user_input):
-#     if (user_input >= 1 and user_input <= 9):
-#         return True
-#     return False
+#     if (user_input >= 1 and user_input <= 9) and is_cell_empty():
+#         return False
+#     return True
 
 
 def is_cell_empty():
@@ -74,7 +77,10 @@ def is_cell_empty():
 
 
 def generate_computer_input():
-    computer_input = random.randint(1, 9)    
+    """
+    Generates random computer move
+    """
+    computer_input = random.randint(1, 9)
     if not is_board_full():
         if not board[int(computer_input - 1)] in {'X', 'O'}:
             board[computer_input - 1] = 'O'
@@ -87,16 +93,22 @@ def check_win():
     """
     Checks who is the winner
     """
-
     computer_selection.sort()
-    user_selection.sort()    
-    if any([set(w).issubset(set(computer_selection)) for w in WIN_COMBINATIONS]):
-        print("\nGame over!Computer is a winner!\n")
-        return True       
+    user_selection.sort()
+    if any([set(w).issubset(set(computer_selection))
+           for w in WIN_COMBINATIONS]):
+        print("\n***Game over!Computer is the WINNER!***\n")
+        return True
     elif any([set(w).issubset(set(user_selection)) for w in WIN_COMBINATIONS]):
-        print("\nCongratulations! You are the winner!\n")   
-        return True  
-   
+        print("\n***Congratulations! You are the WINNER!***\n")
+        return True
+
+
+def check_tie():
+    if is_board_full() and not check_win():
+        print("\nGame over!It'a tie!\n")        
+        return True
+
 
 def display_instructions():
     """
@@ -128,15 +140,15 @@ def main():
     print("Welcome to Tic Tac Toe Game!")
     print("----------------------------")
     print("What's you name?")
-    name = str(input())
+    name = input()
     print("----------------------------")
     print('')
     print(f"Welcome {name}!")
     print("Let's play!")
-
-    display_instructions()
-    run_game()
     
+    display_instructions()
+    run_game()   
+
 
 if __name__ == '__main__':
     main()
