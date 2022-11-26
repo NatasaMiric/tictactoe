@@ -13,7 +13,7 @@ WIN_COMBINATIONS = [[1, 2, 3], [4, 5, 6], [7, 8, 9],
 
 def display_board(board):
     """
-    Displays the board to the user.
+    Displays the board.
 
     Parameters:
     -----------
@@ -63,9 +63,8 @@ def run_game():
             computer_input = generate_computer_input()
             computer_selection.append(computer_input)
             if check_game():
-                break
-            # Clears the console
-            os.system('cls' if os.name == 'nt' else 'clear')
+                break            
+            clear_screen()
         except ValueError:
             print("\nInvalid input. Please try again\n")
     print("Thank you for playing!\n")
@@ -183,9 +182,16 @@ def display_instructions():
     print("------------------------------------------------------------")
 
 
+def clear_screen():
+    """
+    Clears the console.
+    """
+    return os.system('cls' if os.name == 'nt' else 'clear')
+
+
 def main():
     """
-    Main function
+    Main function that executes the program.
     """
     print("----------------------------")
     print("Welcome to Tic Tac Toe Game!")
