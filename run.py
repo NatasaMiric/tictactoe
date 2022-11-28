@@ -229,7 +229,7 @@ def main():
     display_instructions()
     run_game()   
     restart_game()
-    restart_game()
+    
 
 if __name__ == '__main__':
     main()
