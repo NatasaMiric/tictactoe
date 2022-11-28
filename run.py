@@ -64,11 +64,10 @@ def run_game():
             computer_selection.append(computer_input)
             if check_if_game_over():
                 break
-            clear_screen()         
+            clear_screen()
         except ValueError:
             print("\nInvalid input. Please try again\n")
-    print("\nThank you for playing!\n")
-    
+
 
 def check_if_game_over():
     """
@@ -187,23 +186,22 @@ def clear_screen():
     return os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def restart_game(board):  
-    while True:  
-        print("Would you like to play again?")
-        print("Enter 'y' for YES or 'n' for NO:")
-        user_choice = input().strip().lower()
-        if user_choice == 'y':
-            # clear_screen()
-            board = [' ']*9
-            display_board(board)
-            run_game()
-                
-        elif user_choice == 'n':
-            clear_screen()
-            print("Thank you for playing!")
-            break
-        else:
-            print("Invalid answer. Press 'y' to start and 'n' to quit.")
+def restart_game(board):
+
+    print("Would you like to play again?")
+    print("Enter 'y' for YES or 'n' for NO:")
+    user_choice = input().strip().lower()
+    if user_choice == 'y':
+        # clear_screen()
+        board = []
+        board = [' ']*9
+        display_board(board)
+        run_game()
+    elif user_choice == 'n':
+        clear_screen()
+        print("Thank you for playing!")
+    else:
+        print("Invalid answer. Press 'y' to start and 'n' to quit.")
 
 
 def main():
@@ -226,7 +224,7 @@ def main():
     print("Let's play!")
     display_instructions()
     run_game()
-    
+    restart_game(board)
 
 if __name__ == '__main__':
     main()
