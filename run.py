@@ -1,3 +1,4 @@
+""" Imported libraries"""
 import random
 import os
 
@@ -6,12 +7,13 @@ board = [' ']*9
 user_selection = []
 computer_selection = []
 
+
 WIN_COMBINATIONS = [[1, 2, 3], [4, 5, 6], [7, 8, 9],
                     [1, 4, 7], [2, 5, 8], [3, 6, 9],
                     [1, 5, 9], [3, 5, 7]]
 
 
-def display_board(board):
+def display_board():
     """
     Displays the board.
 
@@ -38,7 +40,7 @@ def run_game():
     After each move checks if player wins or is it a tie.
     """
     while not is_board_full():
-        display_board(board)
+        display_board()
         try:
             user_input = input("\nPlease enter a number (1-9): \n")
 
@@ -73,7 +75,7 @@ def check_if_game_over():
     """
     Return true if user or computer win the game or if it's a tie.
     """
-    display_board(board)
+    display_board()
     return check_win() or check_tie()
 
 
@@ -153,7 +155,7 @@ def check_tie():
     Returns True if it'a tie.
     """
     if is_board_full() and not check_win():
-        print("\nGame over!It'a tie!\n")
+        print("\nGame over!It'a tie!\n")        
         return True
 
 
@@ -186,22 +188,24 @@ def clear_screen():
     return os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def restart_game(board):
-
-    print("Would you like to play again?")
-    print("Enter 'y' for YES or 'n' for NO:")
-    user_choice = input().strip().lower()
-    if user_choice == 'y':
-        # clear_screen()
-        board = []
-        board = [' ']*9
-        display_board(board)
-        run_game()
-    elif user_choice == 'n':
-        clear_screen()
-        print("Thank you for playing!")
-    else:
-        print("Invalid answer. Press 'y' to start and 'n' to quit.")
+def restart_game():
+    """
+    Restarts the game
+    """
+    while True:
+        print("Would you like to play again?")
+        print("Enter 'y' for YES or 'n' for NO:")
+        user_choice = input().strip().lower()
+        if user_choice == 'y':
+            # clear_screen()            
+            display_board()
+            run_game()
+        elif user_choice == 'n':
+            clear_screen()
+            print("Thank you for playing!")
+            break
+        else:
+            print("Invalid answer. Press 'y' to start and 'n' to quit.")
 
 
 def main():
@@ -223,8 +227,9 @@ def main():
     print(f"Welcome {name}!")
     print("Let's play!")
     display_instructions()
-    run_game()
-    restart_game(board)
+    run_game()   
+    restart_game()
+    restart_game()
 
 if __name__ == '__main__':
     main()
