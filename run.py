@@ -31,16 +31,16 @@ def display_board(board):
 def run_game():
     """
     This is a function that runs the game until the board is full.
-    
+
     Gets user and computer input and checks if it is a valid and if not
     displays error messages.
-    
-    After each move calls for check win and check tie function.
+
+    After each move checks if player wins or is it a tie.
     """
     while not is_board_full():
         display_board(board)
         try:
-            user_input = input("\nPlease enter a number (1-9): ")
+            user_input = input("\nPlease enter a number (1-9): \n")
 
             if user_input.isnumeric() is False:
                 print("\nInput must be a number between 1 and 9\n")
@@ -58,23 +58,23 @@ def run_game():
 
             board[user_input - 1] = 'X'
             user_selection.append(user_input)
-            if check_game():
+            if check_if_game_over():
                 break
             computer_input = generate_computer_input()
             computer_selection.append(computer_input)
-            if check_game():
-                break            
-            clear_screen()
+            if check_if_game_over():
+                break
+            clear_screen()         
         except ValueError:
             print("\nInvalid input. Please try again\n")
-    print("Thank you for playing!\n")
-    display_board(board)
+    print("\nThank you for playing!\n")
+    
 
-
-def check_game():
+def check_if_game_over():
     """
     Return true if user or computer win the game or if it's a tie.
     """
+    display_board(board)
     return check_win() or check_tie()
 
 
@@ -96,7 +96,7 @@ def user_input_between_one_and_nine(user_input):
     -----------
     user_input : int
         User input from 1 to 9.
-    """    
+    """
     if 1 <= user_input <= 9:
         return True
     return False
@@ -107,7 +107,7 @@ def is_cell_empty(board_location):
     Returns an empty string if cell in the board is empty.
 
     Parameters:
-    -----------   
+    -----------
     board_location : string
         The string which gets returned.
     """
@@ -138,8 +138,6 @@ def check_win():
     """
     Returns True if the player wins the game.
     """
-    computer_selection.sort()
-    user_selection.sort()
     if any([set(w).issubset(set(computer_selection))
            for w in WIN_COMBINATIONS]):
         print("\n*** Game over ***\n")
@@ -189,6 +187,25 @@ def clear_screen():
     return os.system('cls' if os.name == 'nt' else 'clear')
 
 
+def restart_game(board):  
+    while True:  
+        print("Would you like to play again?")
+        print("Enter 'y' for YES or 'n' for NO:")
+        user_choice = input().strip().lower()
+        if user_choice == 'y':
+            # clear_screen()
+            board = [' ']*9
+            display_board(board)
+            run_game()
+                
+        elif user_choice == 'n':
+            clear_screen()
+            print("Thank you for playing!")
+            break
+        else:
+            print("Invalid answer. Press 'y' to start and 'n' to quit.")
+
+
 def main():
     """
     Main function that executes the program.
@@ -209,7 +226,7 @@ def main():
     print("Let's play!")
     display_instructions()
     run_game()
-
+    
 
 if __name__ == '__main__':
     main()
