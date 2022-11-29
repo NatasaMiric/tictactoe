@@ -32,6 +32,7 @@ def display_board():
 
 def run_game():
     """
+
     This is a function that runs the game until the board is full.
 
     Gets user and computer input and checks if it is a valid and if not
